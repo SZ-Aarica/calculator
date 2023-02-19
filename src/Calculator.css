@@ -1,0 +1,16 @@
+.Calculator {
+  min-width: 1000px;
+  border: 1px black solid;
+}
+input{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-weight: bold;
+}
+button{
+    
+    padding-top: 45px;
+    padding-bottom: 45px;
+   
+}
+
