@@ -7,10 +7,13 @@ input{
     padding-bottom: 50px;
     font-weight: bold;
 }
+h1{
+  padding-top: 25px;
+  
+}
 button{
     
-    padding-top: 45px;
-    padding-bottom: 45px;
+    padding: 50px;
    
 }
 
