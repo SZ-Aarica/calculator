@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
 import { useState } from "react";
 import "./Calculator.css";
+import Arithmetic from "./Arithmetic";
+import React, { forwardRef, useEffect, useRef } from "react";
 
 export default function Calculator(props) {
   const [temp, setTemp] = useState(" ");
@@ -37,6 +38,7 @@ export default function Calculator(props) {
   const ClickZero = () => {
     setTemp(temp + "0");
   };
+
   const signClick = () => {
     setTemp("-" + temp);
   };
@@ -51,13 +53,14 @@ export default function Calculator(props) {
   //if cculate button were clicked convertt the value which is String to Integer and store it
   //and give the calculate the calculator * + - /
   function clearPreviousValue() {
-    setNumber(parseInt(value, 10));
+    setNumber(value);
     setTemp(" ");
     setValue(" ");
   }
   const addClick = () => {
     setCalculate("+");
     clearPreviousValue();
+    //console.log(number, value, temp);
   };
   const subClick = () => {
     setCalculate("-");
@@ -80,13 +83,22 @@ export default function Calculator(props) {
     clearPreviousValue();
   };
 
-  //------------------------------------
+  //------------------------------------function to update face when you chose number
   useEffect(() => {
-    //document.title = `You clicked ${count} times`;
     setValue(temp);
   }, [temp]);
 
-  //prevent the default beahvior for the inpute
+  //when = clicked the first value is already turned to string -> so turn the second input
+  //that is still in string and do the calculation
+  const ref = useRef();
+  const ClickEqual = (event) => {
+    //ehrn this button is clicked
+    //call the chilled function in Arthmectic to callculate data
+    event.preventDefault();
+    ref.current.log();
+
+    console.log(props.answer);
+  };
 
   if (props.on) {
     return (
@@ -96,11 +108,15 @@ export default function Calculator(props) {
             <h2 className="col-6">{number}</h2>
             <h3 className="col-6">{calculate}</h3>
           </div>
-
           <form className="row">
             <h1 className="col-10">{value}</h1>
 
-            <input type="submit" className="col-2" value="="></input>
+            <input
+              type="submit"
+              className="col-2"
+              value="="
+              onClick={ClickEqual}
+            ></input>
           </form>
           <div className="buttons row">
             <div className="col-8 numbers">
@@ -182,6 +198,13 @@ export default function Calculator(props) {
               </div>
             </div>
           </div>
+          <Arithmetic
+            ref={ref}
+            number1={number}
+            number2={value}
+            calculate={calculate}
+          />
+          ;
         </div>
       </div>
     ); //send variable to another component and return the value

@@ -1,6 +1,6 @@
 import "./App.css";
 import Calculator from "./Calculator";
-import Butttons from "./Buttons";
+
 
 function App() {
   return (
