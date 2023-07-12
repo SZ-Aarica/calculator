@@ -1,13 +1,14 @@
 import { useState } from "react";
 import "./Calculator.css";
 import Arithmetic from "./Arithmetic";
-import React, { forwardRef, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 export default function Calculator(props) {
   const [temp, setTemp] = useState(" ");
   const [value, setValue] = useState(" ");
   const [calculate, setCalculate] = useState("--");
   const [number, setNumber] = useState("--");
+  const [inititalValue, setInititalValue] = useState();
   const ClickOne = () => {
     setTemp(temp + "1");
   };
@@ -60,7 +61,7 @@ export default function Calculator(props) {
   const addClick = () => {
     setCalculate("+");
     clearPreviousValue();
-    //console.log(number, value, temp);
+    console.log(number, value, temp);
   };
   const subClick = () => {
     setCalculate("-");
@@ -90,14 +91,31 @@ export default function Calculator(props) {
 
   //when = clicked the first value is already turned to string -> so turn the second input
   //that is still in string and do the calculation
-  const ref = useRef();
+  //const ref = useRef();
   const ClickEqual = (event) => {
     //ehrn this button is clicked
     //call the chilled function in Arthmectic to callculate data
     event.preventDefault();
-    ref.current.log();
+    //ref.current.log();
 
-    console.log(props.answer);
+    //setNumber(parseInt(number, 10));
+    //setValue(parseInt(value, 10));
+    console.log(number, value, temp);
+    if (calculate === "+") {
+      setValue(parseInt(number, 10) + parseInt(value, 10));
+    } else {
+      if (calculate === "-") {
+        setValue(parseInt(number, 10) - parseInt(value, 10));
+      } else {
+        if (calculate === "÷") {
+          setValue(parseInt(number, 10) / parseInt(value, 10));
+        } else {
+          if (calculate === "X") {
+            setValue(parseInt(number, 10) * parseInt(value, 10));
+          }
+        }
+      }
+    }
   };
 
   if (props.on) {
@@ -198,12 +216,6 @@ export default function Calculator(props) {
               </div>
             </div>
           </div>
-          <Arithmetic
-            ref={ref}
-            number1={number}
-            number2={value}
-            calculate={calculate}
-          />
           ;
         </div>
       </div>
