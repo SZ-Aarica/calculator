@@ -8,7 +8,8 @@ export default function Calculator(props) {
   const [value, setValue] = useState(" ");
   const [calculate, setCalculate] = useState("--");
   const [number, setNumber] = useState("--");
-  const [inititalValue, setInititalValue] = useState();
+  const [sign, setSign] = useState(false);
+  //const [inititalValue, setInititalValue] = useState();
   const ClickOne = () => {
     setTemp(temp + "1");
   };
@@ -39,9 +40,15 @@ export default function Calculator(props) {
   const ClickZero = () => {
     setTemp(temp + "0");
   };
+  const ClickDot = () => {
+    setTemp(temp + ".");
+  };
 
   const signClick = () => {
-    setTemp("-" + temp);
+    setSign(true);
+    //showing negative has a problem
+    //console.log("-");
+    //setTemp("-" + temp);
   };
 
   const ClearButton = () => {
@@ -54,14 +61,22 @@ export default function Calculator(props) {
   //if cculate button were clicked convertt the value which is String to Integer and store it
   //and give the calculate the calculator * + - /
   function clearPreviousValue() {
-    setNumber(value);
+    if (sign === true) {
+      let t = value;
+      t = t * -1;
+      setNumber(parseFloat(t, 10));
+      console.log(t);
+    } else {
+      setNumber(parseFloat(value, 10));
+    }
     setTemp(" ");
     setValue(" ");
+    setSign(false);
   }
   const addClick = () => {
     setCalculate("+");
     clearPreviousValue();
-    console.log(number, value, temp);
+    //console.log(number);
   };
   const subClick = () => {
     setCalculate("-");
@@ -82,6 +97,7 @@ export default function Calculator(props) {
   const rootClick = () => {
     setCalculate("√");
     clearPreviousValue();
+    setValue(Math.sqrt(number));
   };
 
   //------------------------------------function to update face when you chose number
@@ -99,19 +115,26 @@ export default function Calculator(props) {
     //ref.current.log();
 
     //setNumber(parseInt(number, 10));
-    //setValue(parseInt(value, 10));
-    console.log(number, value, temp);
+
     if (calculate === "+") {
-      setValue(parseInt(number, 10) + parseInt(value, 10));
+      setValue(number + parseFloat(value, 10));
     } else {
       if (calculate === "-") {
-        setValue(parseInt(number, 10) - parseInt(value, 10));
+        setValue(number - parseFloat(value, 10));
       } else {
         if (calculate === "÷") {
-          setValue(parseInt(number, 10) / parseInt(value, 10));
+          setValue(number / parseFloat(value, 10));
         } else {
           if (calculate === "X") {
-            setValue(parseInt(number, 10) * parseInt(value, 10));
+            setValue(number * parseFloat(value, 10));
+          } else {
+            if (calculate === "^") {
+              setValue(number ** parseFloat(value, 10));
+            } else {
+              if (calculate === "√") {
+                setValue(Math.sqrt(number));
+              }
+            }
           }
         }
       }
@@ -179,7 +202,9 @@ export default function Calculator(props) {
                 <button className="col-4" onClick={ClickZero}>
                   0
                 </button>
-                <button className="col-4">.problem</button>
+                <button className="col-4" onClick={ClickDot}>
+                  .
+                </button>
               </div>
             </div>
             <div className="col-4 calcute">
