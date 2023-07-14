@@ -1,17 +1,26 @@
 import { useState } from "react";
 import "./Calculator.css";
-import Arithmetic from "./Arithmetic";
+//import Arithmetic from "./Arithmetic";
 import React, { useEffect } from "react";
 
 export default function Calculator(props) {
   const [temp, setTemp] = useState(" ");
   const [value, setValue] = useState(" ");
+  const [valueTwo, setValueTwo] = useState(" ");
   const [calculate, setCalculate] = useState("--");
   const [number, setNumber] = useState("--");
   const [sign, setSign] = useState(false);
-  //const [inititalValue, setInititalValue] = useState();
+  const [inititalValue, setInititalValue] = useState(false);
+
   const ClickOne = () => {
-    setTemp(temp + "1");
+    if (inititalValue === true) {
+      ClearButton();
+      setValue(" ");
+      setInititalValue(false);
+      setTemp(temp + "1");
+    } else {
+      setTemp(temp + "1");
+    }
   };
   const ClickTwo = () => {
     setTemp(temp + "2");
@@ -52,8 +61,9 @@ export default function Calculator(props) {
   };
 
   const ClearButton = () => {
-    setValue(" ");
     setTemp(" ");
+    setValue(" ");
+    setValueTwo("--");
     setCalculate("--");
     setNumber("--");
   };
@@ -109,13 +119,13 @@ export default function Calculator(props) {
   //that is still in string and do the calculation
   //const ref = useRef();
   const ClickEqual = (event) => {
+    event.preventDefault();
+    setValueTwo(value);
+    setInititalValue(true);
     //ehrn this button is clicked
     //call the chilled function in Arthmectic to callculate data
-    event.preventDefault();
     //ref.current.log();
-
     //setNumber(parseInt(number, 10));
-
     if (calculate === "+") {
       setValue(number + parseFloat(value, 10));
     } else {
@@ -146,8 +156,9 @@ export default function Calculator(props) {
       <div className="container">
         <div className="Calculator">
           <div className="row">
-            <h2 className="col-6">{number}</h2>
-            <h3 className="col-6">{calculate}</h3>
+            <h2 className="col-4">{number}</h2>
+            <h3 className="col-4">{calculate}</h3>
+            <h3 className="col-4">{valueTwo}</h3>
           </div>
           <form className="row">
             <h1 className="col-10">{value}</h1>
@@ -241,7 +252,6 @@ export default function Calculator(props) {
               </div>
             </div>
           </div>
-          ;
         </div>
       </div>
     ); //send variable to another component and return the value
